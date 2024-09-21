@@ -4,6 +4,10 @@ import React, { useState, useEffect } from 'react';
 
 import axios from 'axios'
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> bbddbcd (hid api keys)
 let client_id = process.env.SPOTIFY_CLIENT_ID
 let client_secret = process.env.SPOTIFY_CLIENT_SECRET
 let redirect_uri = 'http://localhost:3000/loggedin'
