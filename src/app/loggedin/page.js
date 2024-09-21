@@ -110,8 +110,33 @@ export default async function Home() {
   
   return (
     <div>
-      <h1>{code}</h1>
-=      <h1 className="text-lg text-red-500"> test </h1>
+    <div className="flex flex-col items-center justify-center text-center text-blue">
+      <div className="grid relative">
+        <img src="/images/juice.png" alt="juicebox" className="w-full h-auto" />
+        
+        {/* User Heading */}
+        <h1 className="text-black text-[2.5vw] absolute inset-x-0 top-[18.5%] flex justify-center">
+          User
+        </h1>
+        {/* Top artists section */}
+        <div className="text-white absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[0%] grid grid-cols-2 gap-3 max-w-s">
+          <p className="p-3 rounded text-[2.5vw] text-sm">afsdfsuch as</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 2</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 3</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 4</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 5</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 6</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 7</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 8</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 9</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 10</p>
+        </div>
+        <div className="absolute bottom-[16%] left-[50%] transform translate-x-[-50%]">
+          <p>Recommended Song</p>
+        </div>
+
+      </div>
     </div>
+  </div>
   )
 }
