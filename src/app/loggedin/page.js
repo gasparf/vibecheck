@@ -23,7 +23,7 @@ export default function Home() {
 
   // body of the request
   const body = {
-    grant_type: 'client_credentials',
+    grant_type: 'authorization_code',
     code: code,
     redirect_uri: redirect_uri,
     client_id: client_id,
