@@ -15,13 +15,13 @@ export default function Home() {
   const searchParams = useSearchParams();
   const code = searchParams.get('code')
 
-
+  // we have to query string the data to send the request
   var querystring = require('querystring');
 
-  // const Authorization = 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
-
+  // url to send the request to  
   const url = 'https://accounts.spotify.com/api/token';
 
+  // body of the request
   const body = {
     grant_type: 'client_credentials',
     code: code,
@@ -30,6 +30,7 @@ export default function Home() {
     client_secret: client_secret,
   }
 
+  // headers of the request for authorization
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded', 
     'Authorization' : 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
