@@ -7,11 +7,7 @@ let redirect_uri = 'http://localhost:3000/loggedin'
 var querystring = require('querystring')
 
 
-
-
-
 export default function Home() {
-
   const generateLink = () => {
 
       var scopes = 'user-top-read user-read-recently-played';

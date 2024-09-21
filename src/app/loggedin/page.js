@@ -2,11 +2,11 @@
 import { useSearchParams } from "next/navigation"
 import React, { useState, useEffect } from 'react';
 
+
 import axios from 'axios'
 
-
-let client_id = 'd281a48fc615470bae01e8658c953561'
-let client_secret = 'f885485f72094ea9a79b6c223d1cfb70'
+let client_id = process.env.SPOTIFY_CLIENT_ID
+let client_secret = process.env.SPOTIFY_CLIENT_SECRET
 let redirect_uri = 'http://localhost:3000/loggedin'
 
 export default async function Home() {
