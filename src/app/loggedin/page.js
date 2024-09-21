@@ -33,7 +33,7 @@ export default function Home() {
   // headers of the request for authorization
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded', 
-    'Authorization' : 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+    'Authorization' : 'Basic ' + (new Buffer.from(`${client_id}:${client_secret}`).toString('base64'))
   }
 
   fetch(url, {
