@@ -2,9 +2,10 @@
 import { useSearchParams } from "next/navigation"
 import axios from 'axios'
 
+
 let client_id = 'd281a48fc615470bae01e8658c953561'
 let client_secret = 'f885485f72094ea9a79b6c223d1cfb70'
-let redirect_uri = 'http://localhost:3000/callback'
+let redirect_uri = 'http://localhost:3000/loggedin'
 
 
 
@@ -21,7 +22,7 @@ export default function Home() {
 
   // body of the request
   const body = {
-    grant_type: 'client_credentials',
+    grant_type: 'authorization_code',
     code: code,
     redirect_uri: redirect_uri,
     client_id: client_id,
