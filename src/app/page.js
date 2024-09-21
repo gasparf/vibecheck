@@ -7,6 +7,8 @@ var querystring = require('querystring')
 
 
 
+
+
 export default function Home() {
 
   const generateLink = () => {
@@ -20,19 +22,23 @@ export default function Home() {
           scope: scopes,
           redirect_uri: redirect_uri
         })}>
-            <button className="p-1 rounded-md text-orange-500 border-black border"> Log in </button>
+            <button className="p-1 rounded-md text-orange-500 border-black border"> Log In </button>
         </Link>
       )
   }
 
   return (
-    <div className="flex-row">
-      <div > 
+    <div className="flex-row m-2">
+      <div className="flex float-right"> 
         {generateLink()}
       </div>
       <div> 
-        <h1> test </h1>
+        <h1 className="text-lg"> Vibecheck </h1>
       </div>
+      <div className="flex justify-center mt-10">
+        <Image src="/images/juice.png" alt="placeHolder" width={2000} height={2000} />
+      </div>
+
     </div>
   )
 }
