@@ -10,7 +10,6 @@ var querystring = require('querystring')
 
 
 export default function Home() {
-
   const generateLink = () => {
 
       var scopes = 'user-top-read user-read-recently-played';
