@@ -10,6 +10,39 @@ let redirect_uri = 'http://localhost:3000/loggedin'
 
 
 
+export default function Home() {
+  // retrieves auth code from page.js
+  const searchParams = useSearchParams();
+  const code = searchParams.get('code')
+
+
+  var querystring = require('querystring');
+
+  // const Authorization = 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+
+  const url = 'https://accounts.spotify.com/api/token';
+
+  const body = {
+    grant_type: 'client_credentials',
+    code: code,
+    redirect_uri: redirect_uri
+  }
+
+  const headers = {
+    'Content-Type': 'application/x-www-form-urlencoded', 
+    'Authorization' : 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+  }
+
+  fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: body
+  })
+  .then(response => response.json())
+  .then(data => console.log(data))
+  .catch(error => console.log(error
+  ))
+
 export default async function Home() {
   // retrieves auth code from page.js
   const searchParams = useSearchParams();
