@@ -5,8 +5,8 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 
 
-let client_id = 'd281a48fc615470bae01e8658c953561'
-let client_secret = 'f885485f72094ea9a79b6c223d1cfb70'
+let client_id = process.env.SPOTIFY_CLIENT_ID
+let client_secret = process.env.SPOTIFY_CLIENT_SECRET
 let redirect_uri = 'http://localhost:3000/loggedin'
 
 
@@ -34,7 +34,7 @@ export default function Home() {
   // headers of the request for authorization
   const headers = {
     'Content-Type': 'application/x-www-form-urlencoded', 
-    'Authorization' : 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+    'Authorization' : 'Basic ' + (new Buffer.from(`${client_id}:${client_secret}`).toString('base64'))
   }
 
   fetch(url, {
