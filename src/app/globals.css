@@ -7,12 +7,12 @@
   --foreground: #070606df;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --background: #070606df;
     --foreground: #ededed;
   }
-}
+} */
 
 body {
   font-family: Arial, Helvetica, sans-serif;

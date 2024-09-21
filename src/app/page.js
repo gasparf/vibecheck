@@ -20,7 +20,7 @@ export default function Home() {
           scope: scopes,
           redirect_uri: redirect_uri
         })}>
-            <button className="p-1 rounded-md text-orange-500 bg-white"> Log in </button>
+            <button className="p-1 rounded-md text-orange-500 border-black border"> Log in </button>
         </Link>
       )
   }
