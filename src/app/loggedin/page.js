@@ -1,7 +1,8 @@
 'use client';
 import { useSearchParams } from "next/navigation"
-import axios from 'axios'
+import React, { useState, useEffect } from 'react';
 
+import axios from 'axios'
 
 let client_id = process.env.SPOTIFY_CLIENT_ID
 let client_secret = process.env.SPOTIFY_CLIENT_SECRET
@@ -9,10 +10,12 @@ let redirect_uri = 'http://localhost:3000/loggedin'
 
 
 
-export default function Home() {
+export default async function Home() {
   // retrieves auth code from page.js
   const searchParams = useSearchParams();
   const code = searchParams.get('code')
+  const [topSongs, setTopSongs] = useState('');
+
 
   // we have to query string the data to send the request
   var querystring = require('querystring');
@@ -25,25 +28,32 @@ export default function Home() {
     grant_type: 'authorization_code',
     code: code,
     redirect_uri: redirect_uri,
-    client_id: client_id,
-    client_secret: client_secret,
+
   }
 
   // headers of the request for authorization
   const headers = {
-    'Content-Type': 'application/x-www-form-urlencoded', 
-    'Authorization' : 'Basic ' + (new Buffer.from(`${client_id}:${client_secret}`).toString('base64'))
-  }
+    'content-type': 'application/x-www-form-urlencoded', 
+    'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+}
 
-  // send the request
+  // request function
   axios
   .post(
     "https://accounts.spotify.com/api/token",
     querystring.stringify(body),
-    headers
+    {headers: headers}
   )
   .then((response) => {
-    console.log(response);
+
+    const auth_header = {
+        Authorization: 'Bearer ' + response.data.access_token
+    }
+    axios.get("https://api.spotify.com/v1/me/top/artists?limit=5", {headers: auth_header}).then((res) => {
+        console.log(res.data);
+    }).catch((err) => {
+        console.log(err);
+    })
   })
   .catch((error) => {
     console.log(error);
@@ -53,7 +63,7 @@ export default function Home() {
   return (
     <div>
       <h1>{code}</h1>
-      <h1 className="text-lg text-red-500"> test </h1>
+=      <h1 className="text-lg text-red-500"> test </h1>
     </div>
   )
 }
