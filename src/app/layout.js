@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import Home from "./page";
 import "./globals.css";
 
 export const metadata = {
@@ -8,8 +9,8 @@ export const metadata = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
-      <body>
+    <html lang="en" className="m-0 p-0">
+      <body className="m-0 p-0 bg-gradient-to-bl from-stone-50 to-red-100">
         {children}
       </body>
     </html>
