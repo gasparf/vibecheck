@@ -49,7 +49,6 @@ export default function Home() {
   return (
     <div>
       <h1>{code}</h1>
-      
       <h1 className="text-white"> test </h1>
     </div>
   )
