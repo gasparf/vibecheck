@@ -8,6 +8,7 @@ var querystring = require('querystring')
 
 
 export default function Home() {
+
   const generateLink = () => {
 
       var scopes = 'user-top-read user-read-recently-played';
@@ -19,14 +20,19 @@ export default function Home() {
           scope: scopes,
           redirect_uri: redirect_uri
         })}>
-          <button>Log in</button>
+            <button className="p-1 rounded-md text-orange-500 bg-white"> Log in </button>
         </Link>
       )
   }
+
   return (
-    <div>
-      <h1>Welcome to My Page</h1>
-      {generateLink()}
+    <div className="flex-row">
+      <div > 
+        {generateLink()}
+      </div>
+      <div> 
+        <h1> test </h1>
+      </div>
     </div>
   )
 }

@@ -1,4 +1,5 @@
 import localFont from "next/font/local";
+import Home from "./page";
 import "./globals.css";
 
 export const metadata = {
