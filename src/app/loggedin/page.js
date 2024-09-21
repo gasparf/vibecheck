@@ -25,7 +25,9 @@ export default function Home() {
   const body = {
     grant_type: 'client_credentials',
     code: code,
-    redirect_uri: redirect_uri
+    redirect_uri: redirect_uri,
+    client_id: client_id,
+    client_secret: client_secret,
   }
 
   const headers = {
