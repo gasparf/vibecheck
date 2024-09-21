@@ -9,10 +9,14 @@ var querystring = require('querystring')
 
 export default function Home() {
   const generateLink = () => {
+
+      var scopes = 'user-top-read ';
+
       return (
         <Link href = {'https://accounts.spotify.com/authorize?' + querystring.stringify( {
           response_type: 'code',
           client_id: client_id,
+          scope: scopes,
           redirect_uri: redirect_uri
         })}>
           <button>Log in</button>
