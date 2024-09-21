@@ -1,12 +1,10 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
+
 let client_id = process.env.SPOTIFY_CLIENT_ID
 let redirect_uri = 'http://localhost:3000/loggedin'
 var querystring = require('querystring')
-
-
-
 
 
 export default function Home() {

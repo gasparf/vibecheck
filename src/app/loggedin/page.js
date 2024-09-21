@@ -2,12 +2,12 @@
 import { useSearchParams } from "next/navigation"
 import React, { useState, useEffect } from 'react';
 
+
 import axios from 'axios'
 
 let client_id = process.env.SPOTIFY_CLIENT_ID
 let client_secret = process.env.SPOTIFY_CLIENT_SECRET
 let redirect_uri = 'http://localhost:3000/loggedin'
-
 
 export default async function Home() {
   // retrieves auth code from page.js
