@@ -1,7 +1,12 @@
+
+'use client';
+import { useSearchParams } from "next/navigation"
+import React, { useState, useEffect } from 'react';
+
 import axios from 'axios'
 
-let client_id = 'd281a48fc615470bae01e8658c953561'
-let client_secret = 'f885485f72094ea9a79b6c223d1cfb70'
+let client_id = process.env.SPOTIFY_CLIENT_ID
+let client_secret = process.env.SPOTIFY_CLIENT_SECRET
 let redirect_uri = 'http://localhost:3000/loggedin'
 
 
@@ -28,7 +33,7 @@ export default async function Home({params,searchParams}) {
   const headers = {
     'content-type': 'application/x-www-form-urlencoded', 
     'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
-}
+  }
 
   // request function
   const response = await axios.post("https://accounts.spotify.com/api/token",
@@ -38,6 +43,7 @@ export default async function Home({params,searchParams}) {
     const auth_header = {
         Authorization: 'Bearer ' + response.data.access_token
     }
+    
     const songs  = await axios.get("https://api.spotify.com/v1/me/top/artists?limit=5", {headers: auth_header});
     console.log(songs.data)
     // in the form of
@@ -53,11 +59,37 @@ export default async function Home({params,searchParams}) {
     // uri: 'spotify:artist:6CY7WNJfd5uZclcS3WeEjx'
     const displaySongs = (songs) => {
 
-    }
+     // <h1 className="text-lg text-red-500"> {songs.data.items[0].name} </h1>
+  
   return (
     <div>
-      <h1>{code}</h1>
-      <h1 className="text-lg text-red-500"> {songs.data.items[0].name} </h1>
+    <div className="flex flex-col items-center justify-center text-center text-blue">
+      <div className="grid relative">
+        <img src="/images/juice.png" alt="juicebox" className="w-full h-auto" />
+        
+        {/* User Heading */}
+        <h1 className="text-black text-[2.5vw] absolute inset-x-0 top-[18.5%] flex justify-center">
+          User
+        </h1>
+        {/* Top artists section */}
+        <div className="text-white absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[0%] grid grid-cols-2 gap-3 max-w-s">
+          <p className="p-3 rounded text-[2.5vw] text-sm">afsdfsuch as</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 2</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 3</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 4</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 5</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 6</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 7</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 8</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 9</p>
+          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 10</p>
+        </div>
+        <div className="absolute bottom-[16%] left-[50%] transform translate-x-[-50%]">
+          <p>Recommended Song</p>
+        </div>
+
+      </div>
     </div>
+  </div>
   )
 }
