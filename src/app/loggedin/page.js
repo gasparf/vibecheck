@@ -102,22 +102,14 @@ return (
 
     {/* Top Artists Header */}
     <h2 className="text-center absolute top-[23%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10">
-      Your Top Artists
+        Tyler's Top Artists
     </h2>
 
     <div className="text-center absolute top-[35%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] grid grid-cols-2 gap-4 max-w-lg z-10">
-      {artists.items.map((artist) => (
-        <a
-          key={artist.id}
-          href={`https://open.spotify.com/artist/${artist.id}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300"
-        >
-          <img src={artist.images[0]?.url} alt={artist.name} className="w-12 h-12 rounded-full mr-3 border-2 border-white" />
-          <span className="font-semibold text-lg">{artist.name}</span>
-        </a>
-      ))}
+    <div class="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300"><img src="https://i.scdn.co/image/ab67616d0000b2732b386fcbb5a5e90bba728f95" alt="Nobody - from Kaiju No. 8" class="w-12 h-12 rounded-full mr-3 border-2 border-white"/><span class="font-semibold text-lg">Nobody - from Kaiju No. 8</span></div>
+    <div class="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300"><img src="https://i.scdn.co/image/ab67616d0000b27381b12e1a0584e8ea7ba2ae4a" alt="Stargazing" class="w-12 h-12 rounded-full mr-3 border-2 border-white"/><span class="font-semibold text-lg">Stargazing</span></div>
+    <div class="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300"><img src="https://i.scdn.co/image/ab67616d0000b27300ac867eff7ed64be10a517c" alt="Miles On It" class="w-12 h-12 rounded-full mr-3 border-2 border-white"/><span class="font-semibold text-lg">Miles On It</span></div>
+    <div class="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300"><img src="https://i.scdn.co/image/ab67616d0000b2735cb0258c29ecc129e5446eae" alt="Migraine" class="w-12 h-12 rounded-full mr-3 border-2 border-white"/><span class="font-semibold text-lg">Migraine</span></div>
     </div>
 
     {/* Top Songs Header */}
