@@ -8,7 +8,8 @@ let redirect_uri = 'http://localhost:3000/loggedin'
 export default async function Home({params,searchParams}) {
   // retrieves auth code from page.js
   const code = searchParams?.code
-  
+
+
   // we have to query string the data to send the request
   var querystring = require('querystring');
 
