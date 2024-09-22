@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-let client_id = '665666f3816445e0b7dfcbdec816e62d'
+let client_id = 'd281a48fc615470bae01e8658c953561'
 let redirect_uri = 'http://localhost:3000/loggedin'
 var querystring = require('querystring')
 
