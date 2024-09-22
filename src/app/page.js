@@ -20,6 +20,7 @@ export default function Home() {
           redirect_uri: redirect_uri
         })}>
             <button className="p-4 px-8 text-xl bg-green-500 hover:bg-green-400 text-white font-bold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105"> Log In </button>
+
         </Link>
       )
   }
