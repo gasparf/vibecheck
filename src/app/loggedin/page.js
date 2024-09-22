@@ -1,126 +1,160 @@
 'use client';
-import axios from 'axios'
+import { useSearchParams } from "next/navigation";
+import React from 'react';
 
-let client_id = process.env.SPOTIFY_CLIENT_ID
-let client_secret = process.env.SPOTIFY_CLIENT_SECRET
-let redirect_uri = 'http://localhost:3000/loggedin'
+let client_id = process.env.SPOTIFY_CLIENT_ID;
+let client_secret = process.env.SPOTIFY_CLIENT_SECRET;
+let redirect_uri = 'http://localhost:3000/loggedin';
 
-export default async function Home({params,searchParams}) {
-  // retrieves auth code from page.js
-  const code = searchParams?.code
+export default async function Home({ params, searchParams }) {
+  const [recommendedSong, setRecommendedSong] = React.useState({});
+  const code = searchParams?.code;
 
-
-  // we have to query string the data to send the request
-  var querystring = require('querystring');
-
-  // url to send the request to  
   const url = 'https://accounts.spotify.com/api/token';
-
-  // body of the request
-  const body = {
+  const body = new URLSearchParams({
+    grant_type: 'authorization_code',
     code: code,
     redirect_uri: redirect_uri,
-    grant_type: 'authorization_code',
-
-  }
-  // headers of the request for authorization
+  });
+  
   const headers = {
-    'content-yype': 'application/x-www-form-urlencoded', 
-    'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
+    'Content-Type': 'application/x-www-form-urlencoded',
+    'Authorization': 'Basic ' + btoa(client_id + ':' + client_secret),
+  };
+
+  const response = await fetch(url, {
+    method: 'POST',
+    headers: headers,
+    body: body,
+  });
+
+  if (!response.ok) {
+    const errorData = await response.json();
+    console.error('Error fetching access token:', errorData);
+    return <div>Error fetching data</div>;
   }
 
-  // request function
-  let response;
-  try {
-    response = await axios.post(url, querystring.stringify(body), { headers: headers }, { json: true });
-  } catch (error) {
-    if (error.response && error.response.status === 400) {
-      console.error('Error - ', error.response.data);
-      return (
-        <div>
-          <p>{error.response.data.error_description}</p>
-        </div>
-      );
-    } else {
-      console.error('An unexpected error occurred: ', error);
-      return (
-        <div>
-          <h1>An unexpected error occurred</h1>
-          <p>{error.message}</p>
-        </div>
-      );
-    }
-  }
+  const tokenData = await response.json();
   const auth_header = {
-      Authorization: 'Bearer ' + response.data.access_token
+    Authorization: 'Bearer ' + tokenData.access_token,
+  };
+
+  // Fetch top artists
+  const artistsResponse = await fetch("https://api.spotify.com/v1/me/top/artists?limit=4", {
+    headers: auth_header,
+  });
+
+  if (!artistsResponse.ok) {
+    const errorData = await artistsResponse.json();
+    console.error('Error fetching top artists:', errorData);
+    return <div>Error fetching data</div>;
   }
-    
-  const artists  = await axios.get("https://api.spotify.com/v1/me/top/artists?limit=5", {headers: auth_header});
-    // console.log(artists.data)
-    // in the form of
-    // external_urls: [Object],
-    // followers: [Object],
-    // genres: [Array],
-    // href: 'https://api.spotify.com/v1/artists/6C7WNJfd5uZclcS3WeEjx',
-    // id: '6CY7WNJfd5uZclcS3WeEjx',
-    // images: [Array],
-    // name: 'Yu-Peng Chen',
-    // popularity: 64,
-    // type: 'artist',
-    // uri: 'spotify:artist:6CY7WNJfd5uZclcS3WeEjx'
-  const displaySongs = (artists) => { }
 
-    // line below contains sample of displaying artist name
-    // <h1 className="text-lg text-red-500"> {songs.data.items[0].name} </h1>
+  const artists = await artistsResponse.json();
 
+  // Fetch top songs
+  const topSongsResponse = await fetch("https://api.spotify.com/v1/me/top/tracks?limit=4", {
+    headers: auth_header,
+  });
 
-    // obtain top 5 songs to generate recommended song
-  const topSongs = await axios.get("https://api.spotify.com/v1/me/top/tracks?limit=5", {headers: auth_header});
-    // console.log(topSongs.data)
-    
-    // put songs ids into an array 
-  const songIds = []
-  for (let i = 0; i < topSongs.data.items.length; i++) {
-    songIds.push(topSongs.data.items[i].id)
+  if (!topSongsResponse.ok) {
+    const errorData = await topSongsResponse.json();
+    console.error('Error fetching top songs:', errorData);
+    return <div>Error fetching data</div>;
   }
-    // console.log(songIds)
-    // generate recommended song based on top 5 songs
-  const recommendedSong = await axios.get("https://api.spotify.com/v1/recommendations?limit=1&seed_tracks=" + songIds.join(), {headers: auth_header});
-  console.log(recommendedSong.data)
 
-    // method to obtain users display name
-  const user_data = await axios.get("https://api.spotify.com/v1/me", {headers: auth_header});
+  const topSongs = await topSongsResponse.json();
+  const songIds = topSongs.items.map(song => song.id);
 
-  return (
-    <div>
-    <div className="flex flex-col items-center justify-center text-center text-blue">
-      <div className="grid relative">
-        <img src="/images/juice.png" alt="juicebox" className="w-full h-auto" />
-        
-        {/* User Heading */}
-        <h1 className="text-black text-[2.5vw] absolute inset-x-0 top-[18.5%] flex justify-center">
-          {user_data.data.display_name}
-        </h1>
-        {/* Top artists section */}
-        <div className="text-white absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[0%] grid grid-cols-2 gap-3 max-w-s">
-          <p className="p-3 rounded text-[2.5vw] text-sm"> {artists.data.items[0].name} </p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 2</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 3</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 4</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 5</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 6</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 7</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 8</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 9</p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 10</p>
+  // Fetch recommended songs based on top 5 songs
+const recommendedSongResponse = await fetch(
+  `https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=${songIds.join()}`,
+  {
+    headers: auth_header,
+  }
+);
+const recommendedSongs = await recommendedSongResponse.json();
+
+
+
+// Function to obtain a random song from recommended songs
+const getRandomSong = () => {
+  const randomIndex = Math.floor(Math.random() * recommendedSongs.tracks.length);
+  return recommendedSongs.tracks[randomIndex];
+}
+const recomSong = getRandomSong();
+setRecommendedSong(recomSong);
+console.log("This is a new thing", recomSong);
+console.log("This is a new thing", recomSong.name);
+console.log("This is should match above", recommendedSong.name);
+
+// Method to obtain user's display name
+const userResponse = await fetch("https://api.spotify.com/v1/me", {
+  headers: auth_header,
+});
+const user_data = await userResponse.json();
+
+return (
+  <div className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white">
+    <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-70" />
+
+    <h1 className="text-center absolute top-[10%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-4xl font-extrabold z-10 shadow-lg">
+      {user_data.display_name}
+    </h1>
+
+    {/* Top Artists Header */}
+    <h2 className="text-center absolute top-[23%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10">
+      Your Top Artists
+    </h2>
+
+    <div className="text-center absolute top-[35%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] grid grid-cols-2 gap-4 max-w-lg z-10">
+      {artists.items.map((artist) => (
+        <a
+          key={artist.id}
+          href={`https://open.spotify.com/artist/${artist.id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300"
+        >
+          <img src={artist.images[0]?.url} alt={artist.name} className="w-12 h-12 rounded-full mr-3 border-2 border-white" />
+          <span className="font-semibold text-lg">{artist.name}</span>
+        </a>
+      ))}
+    </div>
+
+    {/* Top Songs Header */}
+    <h2 className="text-center absolute top-[56%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10">
+      Your Top Songs
+    </h2>
+
+    <div className="text-center absolute top-[70%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] grid grid-cols-2 gap-4 max-w-lg z-10">
+      {topSongs.items.map((song) => (
+        <div key={song.id} className="flex items-center p-3 rounded-lg bg-gray-800 shadow-lg transition-transform transform hover:scale-105 duration-300">
+          <img src={song.album.images[0]?.url} alt={song.name} className="w-12 h-12 rounded-full mr-3 border-2 border-white" />
+          <span className="font-semibold text-lg">{song.name}</span>
         </div>
-        <div className="absolute bottom-[16%] left-[50%] transform translate-x-[-50%]">
-          <p> {recommendedSong.data.tracks[0].name} - {recommendedSong.data.tracks[0].artists[0].name} </p>
-        </div>
+      ))}
+    </div>
 
-      </div>
+    <div className="absolute bottom-[10%] left-[50%] transform translate-x-[-50%] z-10">
+      {recommendedSongs.tracks && recommendedSongs.tracks.length > 0 && (
+        <a
+          href={`https://open.spotify.com/track/${recommendedSongs.tracks[0].id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg"
+        >
+          {`Recommended Song: ${recommendedSong.name}`}
+        </a>
+      )}
+      <button onClick={() => {
+        const randomSong = getRandomSong();
+        alert(`Random Recommended Song: ${randomSong.name}`);
+      }} className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg mt-3">
+        Get New Recommended Song
+      </button>
     </div>
   </div>
-  )
+);
 }
 
