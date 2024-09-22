@@ -51,7 +51,7 @@ export default async function Home({params,searchParams}) {
     // popularity: 64,
     // type: 'artist',
     // uri: 'spotify:artist:6CY7WNJfd5uZclcS3WeEjx'
-    const displaySongs = (songs) => {
+    const displaySongs = (songs) => {}
 
     }
   return (
