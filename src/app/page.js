@@ -19,22 +19,34 @@ export default function Home() {
           scope: scopes,
           redirect_uri: redirect_uri
         })}>
-            <button className="p-3 text-2xl rounded-md border-black border shadow-lg on:hover"> Log In </button>
+            <button className="p-4 px-8 text-xl bg-green-500 hover:bg-green-400 text-white font-bold rounded-full shadow-lg transition duration-300 ease-in-out transform hover:scale-105"> Log In </button>
         </Link>
       )
   }
 
   return (
-    <div className="flex-row m-2">
-      <div className="fixed z-10 ml-3"> 
-        {generateLink()}
-      </div>
-      <div className="relative justify-center mt-5 text-center">
-        <Image src="/images/juice.png" alt="placeHolder" width={2000} height={2000} className="shadow-2xl" />
-        <h1 className="text-6xl absolute top-1/2 left-1/2 -translate-y-3/5 -translate-x-2/4 text-white"> Vibecheck </h1>
-        <p className="text-6xl absolute top-2/3 left-1/2 -translate-y-2/3 -translate-x-2/4 text-white" > Click "Log In" to start! </p>
+    <div 
+      className="relative flex flex-col items-center justify-center min-h-screen text-white" 
+      style={{ backgroundColor: '#1DB954', backgroundImage: 'linear-gradient(to bottom, black, #1DB954)' }}
+    >
+      {/* Gradient Overlay */}
+      <div className="absolute inset-0 opacity-70" />
+
+      {/* Text Section */}
+      <div className="text-center mb-10 z-10">
+        <h1 className="text-7xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
+          Vibecheck
+        </h1>
+        <p className="mt-5 text-xl max-w-xl leading-relaxed text-gray-300">
+          Explore your personalized Spotify music world!
+        </p>
       </div>
 
+      {/* Button Section */}
+      <div className="z-10">
+        {generateLink()}
+      </div>
     </div>
-  )
+  );
 }
+

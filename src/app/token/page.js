@@ -36,6 +36,7 @@ export default async function Token({searchParams}) {
     console.log(token)
 
     redirect('/loggedin?vibecheck_token='+token)
+
 }
 
 
