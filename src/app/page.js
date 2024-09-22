@@ -11,6 +11,7 @@ export default function Home() {
   const generateLink = () => {
 
       var scopes = 'user-top-read user-read-recently-played user-read-private user-read-email';
+      
 
       return (
         <Link href = {'https://accounts.spotify.com/authorize?' + querystring.stringify( {

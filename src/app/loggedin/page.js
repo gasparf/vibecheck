@@ -8,7 +8,7 @@ let redirect_uri = 'http://localhost:3000/loggedin'
 export default async function Home({params,searchParams}) {
   // retrieves auth code from page.js
   const code = searchParams?.code
-
+  
   // we have to query string the data to send the request
   var querystring = require('querystring');
 
@@ -17,23 +17,40 @@ export default async function Home({params,searchParams}) {
 
   // body of the request
   const body = {
-    grant_type: 'authorization_code',
     code: code,
     redirect_uri: redirect_uri,
-  }
+    grant_type: 'authorization_code',
 
+  }
   // headers of the request for authorization
   const headers = {
-    'Content-Type': 'application/x-www-form-urlencoded', 
+    'content-yype': 'application/x-www-form-urlencoded', 
     'Authorization': 'Basic ' + (new Buffer.from(client_id + ':' + client_secret).toString('base64'))
 }
 
   // request function
-  const response = await axios.post("https://accounts.spotify.com/api/token",
-    querystring.stringify(body),
-    {headers: headers})
-
-
+  let response;
+  try {
+    response = await axios.post(url, querystring.stringify(body), { headers: headers });
+  } catch (error) {
+    if (error.response && error.response.status === 400) {
+      console.error('Error 400: Bad Request - ', error.response.data);
+      return (
+        <div>
+          <h1>Error 400: Bad Request</h1>
+          <p>{error.response.data.error_description}</p>
+        </div>
+      );
+    } else {
+      console.error('An unexpected error occurred: ', error);
+      return (
+        <div>
+          <h1>An unexpected error occurred</h1>
+          <p>{error.message}</p>
+        </div>
+      );
+    }
+  }
     const auth_header = {
         Authorization: 'Bearer ' + response.data.access_token
     }
@@ -87,7 +104,7 @@ export default async function Home({params,searchParams}) {
         {/* Top artists section */}
         <div className="text-white absolute top-[50%] left-[50%] transform translate-x-[-50%] translate-y-[0%] grid grid-cols-2 gap-3 max-w-s">
           <p className="p-3 rounded text-[2.5vw] text-sm"> {artists.data.items[0].name} </p>
-          <p className="p-3 rounded text-sm text-[2.5vw]">Artist 2</p>
+          <p className="p-3 rounded text-s</div>m text-[2.5vw]">Artist 2</p>
           <p className="p-3 rounded text-sm text-[2.5vw]">Artist 3</p>
           <p className="p-3 rounded text-sm text-[2.5vw]">Artist 4</p>
           <p className="p-3 rounded text-sm text-[2.5vw]">Artist 5</p>
@@ -106,3 +123,4 @@ export default async function Home({params,searchParams}) {
   </div>
   )
 }
+
