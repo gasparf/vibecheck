@@ -57,7 +57,7 @@ export default async function Home({params,searchParams}) {
     // popularity: 64,
     // type: 'artist',
     // uri: 'spotify:artist:6CY7WNJfd5uZclcS3WeEjx'
-    const displaySongs = (songs) => {
+    const displaySongs = (songs) => { }
 
      // <h1 className="text-lg text-red-500"> {songs.data.items[0].name} </h1>
   
