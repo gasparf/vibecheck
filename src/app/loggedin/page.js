@@ -31,13 +31,12 @@ export default async function Home({params,searchParams}) {
   // request function
   let response;
   try {
-    response = await axios.post(url, querystring.stringify(body), { headers: headers });
+    response = await axios.post(url, querystring.stringify(body), { headers: headers }, { json: true });
   } catch (error) {
     if (error.response && error.response.status === 400) {
-      console.error('Error 400: Bad Request - ', error.response.data);
+      console.error('Error - ', error.response.data);
       return (
         <div>
-          <h1>Error 400: Bad Request</h1>
           <p>{error.response.data.error_description}</p>
         </div>
       );
