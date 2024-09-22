@@ -1,12 +1,15 @@
 
 'use client';
 import { useSearchParams } from "next/navigation";
+
 import React from 'react';
 import { useState } from "react";
 
 let client_id = process.env.SPOTIFY_CLIENT_ID;
 let client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 let redirect_uri = 'http://localhost:3000/loggedin';
+let otherUserSongs = ["47N81NMkB488fuOwOC3Oip","3Vr3zh0r7ALn8VLqCiRR10","4pkb8SbRGeHAvdb87v9rpf","4YLKHaxYieIw6iMVfIvKm7"]
+
 
 export default function Home({ params, searchParams }) {
   const access_token =searchParams?.vibecheck_token;
@@ -17,6 +20,9 @@ export default function Home({ params, searchParams }) {
   const [loadingTopSongs, setLoadingTopSongs] = useState(0);
   const [topSongs, setTopSongsResponse] = useState(0);
   const [recommendedSongs, setReccomendedSongs] = useState(0)
+  const [otherUser,setOtherUser] = useState(0)
+  const [loadingOtherUser, setLoadingOtherUser] = useState(0)
+
   const auth_header = {
     Authorization: 'Bearer ' + access_token,
   };
@@ -63,7 +69,7 @@ export default function Home({ params, searchParams }) {
   fetchUserData()
 
   const getReccomendedSongs = () => {
-    const songIds = topSongs.items.map(song => song.id);
+    const songIds = topSongs.items.map(song => song.id).slice(1).concat(otherUserSongs).slice(2);
     fetch("https://api.spotify.com/v1/recommendations?limit=10&seed_tracks="+songIds.join(), {
         headers: auth_header,
       }).then((artistsResponse) => {
