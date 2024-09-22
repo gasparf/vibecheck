@@ -12,7 +12,6 @@ export default function Home() {
 
       var scopes = 'user-top-read user-read-recently-played user-read-private user-read-email';
 
-
       return (
         <Link href = {'https://accounts.spotify.com/authorize?' + querystring.stringify( {
           response_type: 'code',
