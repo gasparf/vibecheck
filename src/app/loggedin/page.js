@@ -1,19 +1,13 @@
-'use client';
-import { useSearchParams } from "next/navigation"
-import React, { useState, useEffect } from 'react';
-
-
 import axios from 'axios'
 
 let client_id = process.env.SPOTIFY_CLIENT_ID
 let client_secret = process.env.SPOTIFY_CLIENT_SECRET
 let redirect_uri = 'http://localhost:3000/loggedin'
 
-export default async function Home() {
+
+export default async function Home({params,searchParams}) {
   // retrieves auth code from page.js
-  const searchParams = useSearchParams();
-  const code = searchParams.get('code')
-  const [topSongs, setTopSongs] = useState('');
+  const code = searchParams?.code
 
 
   // we have to query string the data to send the request
@@ -37,27 +31,29 @@ export default async function Home() {
 }
 
   // request function
-  axios
-  .post(
-    "https://accounts.spotify.com/api/token",
+  const response = await axios.post("https://accounts.spotify.com/api/token",
     querystring.stringify(body),
-    {headers: headers}
-  )
-  .then((response) => {
+    {headers: headers})
 
     const auth_header = {
         Authorization: 'Bearer ' + response.data.access_token
     }
-    axios.get("https://api.spotify.com/v1/me/top/artists?limit=5", {headers: auth_header}).then((res) => {
-        console.log(res.data);
-    }).catch((err) => {
-        console.log(err);
-    })
-  })
-  .catch((error) => {
-    console.log(error);
-  });
-  
+    const songs  = await axios.get("https://api.spotify.com/v1/me/top/artists?limit=5", {headers: auth_header});
+    console.log(songs.data)
+    // in the form of
+    // external_urls: [Object],
+    // followers: [Object],
+    // genres: [Array],
+    // href: 'https://api.spotify.com/v1/artists/6CY7WNJfd5uZclcS3WeEjx',
+    // id: '6CY7WNJfd5uZclcS3WeEjx',
+    // images: [Array],
+    // name: 'Yu-Peng Chen',
+    // popularity: 64,
+    // type: 'artist',
+    // uri: 'spotify:artist:6CY7WNJfd5uZclcS3WeEjx'
+    const displaySongs = (songs) => {
+
+    }
   return (
     <div>
     <div className="flex flex-col items-center justify-center text-center text-blue">
