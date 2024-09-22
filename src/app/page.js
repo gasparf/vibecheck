@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 let client_id = process.env.SPOTIFY_CLIENT_ID
-let redirect_uri = 'http://localhost:3000/loggedin'
+let redirect_uri = 'http://localhost:3000/token'
 var querystring = require('querystring')
 
 
