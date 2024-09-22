@@ -11,6 +11,8 @@ let redirect_uri = 'http://localhost:3000/loggedin';
 let otherUserSongs = ["47N81NMkB488fuOwOC3Oip","3Vr3zh0r7ALn8VLqCiRR10","4pkb8SbRGeHAvdb87v9rpf","4YLKHaxYieIw6iMVfIvKm7"]
 
 
+
+
 export default function Home({ params, searchParams }) {
   const access_token =searchParams?.vibecheck_token;
   const [loadingUser, setLoadinguser] = useState(0)
@@ -116,6 +118,7 @@ return (
     <h2 className="text-center absolute top-[56%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10 font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
       Your Top Songs
     </h2>
+
 
     <div className="text-center absolute top-[70%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] grid grid-cols-2 gap-4 max-w-lg z-10">
       {topSongs.items.map((song) => (
