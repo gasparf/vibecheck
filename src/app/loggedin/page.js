@@ -7,7 +7,6 @@ let client_secret = process.env.SPOTIFY_CLIENT_SECRET;
 let redirect_uri = 'http://localhost:3000/loggedin';
 
 export default async function Home({ params, searchParams }) {
-  const [recommendedSong, setRecommendedSong] = React.useState({});
   const code = searchParams?.code;
 
   const url = 'https://accounts.spotify.com/api/token';
@@ -75,24 +74,16 @@ const recommendedSongResponse = await fetch(
 );
 const recommendedSongs = await recommendedSongResponse.json();
 
-
-
-// Function to obtain a random song from recommended songs
-const getRandomSong = () => {
-  const randomIndex = Math.floor(Math.random() * recommendedSongs.tracks.length);
-  return recommendedSongs.tracks[randomIndex];
-}
-const recomSong = getRandomSong();
-setRecommendedSong(recomSong);
-console.log("This is a new thing", recomSong);
-console.log("This is a new thing", recomSong.name);
-console.log("This is should match above", recommendedSong.name);
-
 // Method to obtain user's display name
 const userResponse = await fetch("https://api.spotify.com/v1/me", {
   headers: auth_header,
 });
 const user_data = await userResponse.json();
+
+const handleClick = () => {
+  alert("Testing")
+  console.log("testing")
+}
 
 return (
   <div className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white">
@@ -144,15 +135,12 @@ return (
           rel="noopener noreferrer"
           className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg"
         >
-          {`Recommended Song: ${recommendedSong.name}`}
+          {`Recommended Song: ${recommendedSongs.tracks[0].name}`}
         </a>
       )}
-      <button onClick={() => {
-        const randomSong = getRandomSong();
-        alert(`Random Recommended Song: ${randomSong.name}`);
-      }} className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg mt-3">
-        Get New Recommended Song
-      </button>
+      <button onClick={handleClick} className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg mt-3">
+          Get New Recommended Song
+        </button>
     </div>
   </div>
 );
