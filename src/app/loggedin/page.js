@@ -16,6 +16,7 @@ export default function Home({ params, searchParams }) {
   const [artists, setArtists] = useState(0);
   const [loadingTopSongs, setLoadingTopSongs] = useState(0);
   const [topSongs, setTopSongsResponse] = useState(0);
+  const [recommendedSongs, setReccomendedSongs] = useState(0)
   const auth_header = {
     Authorization: 'Bearer ' + access_token,
   };
@@ -58,11 +59,19 @@ export default function Home({ params, searchParams }) {
             })
         })
     }
-
   }
   fetchUserData()
 
-
+  const getReccomendedSongs = () => {
+    const songIds = topSongs.items.map(song => song.id);
+    fetch("https://api.spotify.com/v1/recommendations?limit=10&seed_tracks="+songIds.join(), {
+        headers: auth_header,
+      }).then((artistsResponse) => {
+        artistsResponse.json().then((artjson) => {
+            setReccomendedSongs(artjson)
+        })
+      })}
+  
   // Fetch recommended songs based on top 5 songs
 // const recommendedSongResponse = await fetch(
 //   `https://api.spotify.com/v1/recommendations?limit=10&seed_tracks=${songIds.join()}`,
@@ -72,11 +81,6 @@ export default function Home({ params, searchParams }) {
 // );
 // const recommendedSongs = await recommendedSongResponse.json();
 
-// // Method to obtain user's display name
-// const userResponse = await fetch("https://api.spotify.com/v1/me", {
-//   headers: auth_header,
-// });
-// const user_data = await userResponse.json();
 
 
 if (!user_data || !topSongs || !artists) {
@@ -123,7 +127,21 @@ return (
         </div>
       ))}
     </div>
-
+    <div className="absolute bottom-[10%] left-[50%] transform translate-x-[-50%] z-10">
+      {recommendedSongs.tracks && recommendedSongs.tracks.length > 0 && (
+        <a
+          href={`https://open.spotify.com/track/${recommendedSongs.tracks[0].id}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg"
+        >
+          {`Recommended Song: ${recommendedSongs.tracks[0].name}`}
+        </a>
+      )}
+      <button onClick={getReccomendedSongs} className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg mt-3">
+          Get New Recommended Song
+        </button>
+    </div>
   </div>
 );
 }   
