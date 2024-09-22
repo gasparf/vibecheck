@@ -93,15 +93,15 @@ if (!user_data || !topSongs || !artists) {
     return(<div><h1>Loading...</h1></div>)
 }
 return (
-    <div className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white">
+    <div className="relative flex flex-col items-center justify-center min-h-screen bg-cover bg-center text-white bg-gradient-to-b from-black to-[#1DB954]">
     <div className="absolute inset-0 bg-gradient-to-b from-black via-transparent to-black opacity-70" />
 
-    <h1 className="text-center absolute top-[10%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-4xl font-extrabold z-10 shadow-lg">
+    <h1 className="text-center absolute top-[10%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-4xl font-extrabold z-10 shadow-lg  font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
       {user_data.display_name}
     </h1>
 
     {/* Top Artists Header */}
-    <h2 className="text-center absolute top-[23%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10">
+    <h2 className="text-center absolute top-[20%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10 font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
         Tyler's Top Artists
     </h2>
 
@@ -113,7 +113,7 @@ return (
     </div>
 
     {/* Top Songs Header */}
-    <h2 className="text-center absolute top-[56%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10">
+    <h2 className="text-center absolute top-[56%] left-[50%] transform translate-x-[-50%] translate-y-[-50%] text-2xl font-semibold z-10 font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-green-400 to-blue-500">
       Your Top Songs
     </h2>
 
@@ -125,18 +125,18 @@ return (
         </div>
       ))}
     </div>
-    <div className="absolute bottom-[10%] left-[50%] transform translate-x-[-50%] z-10">
+    <div className="absolute bottom-[3%] left-[50%] transform translate-x-[-50%] z-10">
       {recommendedSongs.tracks && recommendedSongs.tracks.length > 0 && (
         <a
           href={`https://open.spotify.com/track/${recommendedSongs.tracks[0].id}`}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg"
+          className="text-center text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg"
         >
           {`Recommended Song: ${recommendedSongs.tracks[0].name}`}
         </a>
       )}
-      <button onClick={getReccomendedSongs} className="text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg mt-3">
+      <button onClick={getReccomendedSongs} className="text-center text-xl font-bold bg-gray-700 p-3 rounded-lg shadow-lg mt-3">
           Get New Recommended Song
         </button>
     </div>
